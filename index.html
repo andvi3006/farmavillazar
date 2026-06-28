@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MERX / ANDVISHOP - Tienda Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="farmacy.css">
+  <style>
+    /* ==========================================
+   PALETA DE COLORES Y VARIABLES (Celeste & Morado)
+   ========================================== */
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <div class="logo" onclick="window.location.reload()">
+        <span class="marca-andvi">ANDVISHOP</span> / <span class="marca-merx">MERX</span>
+      </div>
+      <div class="search-wrap">
+        <i class="ri-search-line search-icon"></i>
+        <input type="text" id="search" placeholder="Buscar productos por nombre, marca o descripción...">
+      </div>
+      <button class="cart-trigger" id="cart-trigger">
+        <i class="ri-shopping-bag-line"></i> Mi Carrito (<span id="cart-count">0</span>)
+      </button>
+    </div>
+  </header>
+
+  <nav class="top-nav-bar">
+    <div class="nav-container" id="filters">
+      <button class="nav-item active" data-cat="todos">
+        <i class="ri-grid-fill"></i> Todos
+      </button>
+      <button class="nav-item btn-oferta-top" data-cat="ofertas">
+        <i class="ri-fire-fill"></i> Ofertas
+      </button>
+      
+      <div class="nav-dropdown">
+        <button class="nav-item dropdown-trigger"><i class="ri-capsule-line"></i> Salud & Medicamentos <i class="ri-arrow-down-s-line arrow"></i></button>
+        <div class="dropdown-menu-content">
+          <button class="filter-chip" data-cat="Cuidado de la Mujer">Cuidado de la Mujer</button>
+          <button class="filter-chip" data-cat="Antibacterianos">Antibacterianos</button>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <button class="nav-item dropdown-trigger"><i class="ri-hand-sanitizer-line"></i> Cuidado Personal <i class="ri-arrow-down-s-line arrow"></i></button>
+        <div class="dropdown-menu-content">
+          <button class="filter-chip" data-cat="Cuidado Íntimo">Cuidado Íntimo</button>
+          <button class="filter-chip" data-cat="Baño">Baño / Fragancias</button>
+          <button class="filter-chip" data-cat="Cuidado de la Piel">Cuidado de la Piel</button>
+          <button class="filter-chip" data-cat="Jabones">Jabones</button>
+          <button class="filter-chip" data-cat="Cuidado del Cabello">Cuidado del Cabello</button>
+          <button class="filter-chip" data-cat="Cuidado Bucal">Cuidado Bucal</button>
+          <button class="filter-chip" data-cat="Afeitadores">Afeitadores</button>
+          <button class="filter-chip" data-cat="Desodorantes">Desodorantes</button>
+          <button class="filter-chip" data-cat="Bienestar Sexual">Bienestar Sexual</button>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <button class="nav-item dropdown-trigger"><i class="ri-parent-line"></i> Mamá & Nutrición <i class="ri-arrow-down-s-line arrow"></i></button>
+        <div class="dropdown-menu-content">
+          <button class="filter-chip" data-cat="Vitaminas y Suplementos">Vitaminas y Suplementos Bebé</button>
+          <button class="filter-chip" data-cat="Todo en Ninet Toallitas Húmedas">Pañitos Ninet</button>
+          <button class="filter-chip" data-cat="Pañales para Bebé">Pañales para Bebé</button>
+          <button class="filter-chip" data-cat="Fórmula para Bebés">Fórmula para Bebés</button>
+          <button class="filter-chip" data-cat="Vitaminas">Vitaminas Adulto General</button>
+          <button class="filter-chip" data-cat="Suplementos/Nutricionales">Suplementos Nutricionales</button>
+          <button class="filter-chip" data-cat="Suplementos/Complementos">Suplementos Complementos</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero-banner-container">
+    <div class="hero-banner-link">
+      <img src="post_farmacy.png" class="hero-banner-img">
+      <div class="hero-banner-overlay">
+        <div class="hero-banner-text">
+          <span class="hero-tag">EXCLUSIVO</span>
+          <h2>Productos Médicos & Estética Premium</h2>
+          <p>Disfruta de la mejor calidad y seguridad con envíos inmediatos y garantía certificada en todas tus compras.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="store-wrapper">
+    <div class="section-title-alt">
+      <h2>Catálogo de Productos</h2>
+      <span>• Selección Exclusiva</span>
+    </div>
+    
+    <div class="empty-state" id="empty-state">
+      <div class="icon">🔍</div>
+      <h3>No encontramos resultados</h3>
+      <p>Intenta buscando con otros términos o seleccionando otra categoría.</p>
+    </div>
+
+    <div class="main-grid" id="products-grid"></div>
+  </main>
+
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeProductModal()">✕</button>
+      <div class="modal-layout">
+        <div class="modal-img-wrap">
+          <img id="modal-img" src="" alt="">
+        </div>
+        <div class="modal-info">
+          <span class="card-cat" id="modal-cat"></span>
+          <h2 id="modal-name"></h2>
+          <div id="modal-desc-block" style="margin-bottom:1.5rem;"></div>
+          <div class="modal-footer">
+            <div class="price" id="modal-price"></div>
+            <div id="modal-action-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h2>Mi Carrito</h2>
+      <button class="cart-close" id="cart-close">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items-container"></div>
+    <div class="cart-footer">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">S/ 0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>Envío</span>
+        <span style="color:#22c55e; font-weight:600;">Gratis</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span id="cart-total">S/ 0.00</span>
+      </div>
+      <div id="checkout-form-container" style="margin-top: 1.2rem; padding: 1.2rem 1rem; border-top: 2px dashed #cbd5e1; background: #fafafa; border-radius: 10px; display: none; text-align: left;">
+  <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: #7209b7; display: flex; align-items: center; gap: 6px;">
+    <i class="ri-store-2-line"></i> Datos para Recojo en Tienda
+  </h3>
+  
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <div>
+        <label style="font-size: 0.75rem; font-weight: 600; color: #6b7280; display:block; margin-bottom: 3px;">Nombre *</label>
+        <input type="text" id="cust-name" placeholder="Ej: Juan" style="width:100%; padding: 0.55rem; border-radius: 6px; border: 1px solid #cbd5e1; outline: none; font-size: 0.85rem;">
+      </div>
+      <div>
+        <label style="font-size: 0.75rem; font-weight: 600; color: #6b7280; display:block; margin-bottom: 3px;">Apellidos *</label>
+        <input type="text" id="cust-lastname" placeholder="Ej: Pérez" style="width:100%; padding: 0.55rem; border-radius: 6px; border: 1px solid #cbd5e1; outline: none; font-size: 0.85rem;">
+      </div>
+    </div>
+    
+    <div>
+      <label style="font-size: 0.75rem; font-weight: 600; color: #6b7280; display:block; margin-bottom: 3px;">Teléfono WhatsApp *</label>
+      <input type="tel" id="cust-phone" maxlength="9" placeholder="9XXXXXXXX" style="width:100%; padding: 0.55rem; border-radius: 6px; border: 1px solid #cbd5e1; outline: none; font-size: 0.85rem;">
+    </div>
+
+    <div>
+      <label style="font-size: 0.75rem; font-weight: 600; color: #6b7280; display:block; margin-bottom: 3px;">Correo Electrónico *</label>
+      <input type="email" id="cust-email" placeholder="juan@correo.com" style="width:100%; padding: 0.55rem; border-radius: 6px; border: 1px solid #cbd5e1; outline: none; font-size: 0.85rem;">
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <div>
+        <label style="font-size: 0.75rem; font-weight: 600; color: #6b7280; display:block; margin-bottom: 3px;">Fecha Recojo *</label>
+        <input type="date" id="cust-pickup-date" style="width:100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #cbd5e1; outline: none; font-size: 0.85rem; background: white;">
+      </div>
+      <div>
+        <label style="font-size: 0.75rem; font-weight: 600; color: #6b7280; display:block; margin-bottom: 3px;">Horario Recojo *</label>
+        <select id="cust-pickup-time" style="width:100%; padding: 0.53rem; border-radius: 6px; border: 1px solid #cbd5e1; outline: none; font-size: 0.85rem; background: white; cursor: pointer;">
+          <option value="">Seleccionar...</option>
+          <option value="Mañana (8am a 12pm)">Mañana (8am a 12pm)</option>
+          <option value="Tarde (12pm a 4pm)">Tarde (12pm a 4pm)</option>
+          <option value="Noche (4pm a 10pm)">Noche (4pm a 10pm)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+      <button class="checkout-btn" id="checkout-btn">llenar datos de compra</button>
+    </div>
+  </div>
+  
+  <div id="toast">Producto añadido al carrito</div>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 MERX / ANDVISHOP - Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="farmacy.js"></script>
+</body>
+</html>
